@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% for post in stream %}
+    <div class="container" style="position: relative; bottom: -25px; border-style: solid; border-color: #e3f2fd;">
+        <article>
+            <div class="container" style="style=position: relative; bottom: -20px; padding-bottom: 20px;">
+                <br>
+                    <div class="post_row">
+                        <h2>
+                            <a href="{{ url_for('stream', username=post.user.username) }}">{{ post.user.username }}</a>
+                        </h2>
+                    </div>
+                <div class="post_row">
+                    <i class="clock"></i><time data-time="{{ post.timestamp }}" class="distime" datetime="{{
+                        post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}">{{ post.timestamp.strftime('%Y-%m-%d %H:%M') }}</time>
+                    <div class="pull-xs-right">
+                        <div>
+                            <a href="{{ url_for('upvote', post_id=post.id) }}">True</a><p>{{ post.upvotes.count() }}</p>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('downvote', post_id=post.id) }}">False</a><p>{{ post.downvotes.count() }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post_row">
+                    <div style="width: 85%">
+                        {{ post.content }}
+                    </div>
+                    <br>
+                </div>
+                <div class="pull-xl-left">
+                    <a href="{{ url_for('view_post', post_id=post.id) }}" class="view">View</a>
+                    <a href="{{ url_for('delete_post', post_id=post.id) }}" class="delete">Delete</a>
+                    <a href="{{ url_for('stream', post_id=post.id) }}" class="comment">Comment</a>
+                </div>
+            </div>
+        </article>
+    </div>
+    <br>
+{% endfor %}
+{% endblock %}
